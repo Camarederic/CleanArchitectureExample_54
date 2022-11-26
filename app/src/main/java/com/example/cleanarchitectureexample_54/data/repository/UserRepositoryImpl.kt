@@ -3,32 +3,30 @@ package com.example.cleanarchitectureexample_54.data.repository
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.cleanarchitectureexample_54.data.storage.User
+import com.example.cleanarchitectureexample_54.data.storage.UserStorage
 import com.example.cleanarchitectureexample_54.domain.model.SaveUserNameParam
 import com.example.cleanarchitectureexample_54.domain.model.UserName
 import com.example.cleanarchitectureexample_54.domain.repository.UserRepository
 
-private const val SHARED_PREFS_NAME = "shared_prefs_name"
-private const val KEY_FIRST_NAME = "firstName"
-private const val KEY_LAST_NAME = "lastName"
-private const val DEFAULT_NAME = "Default last name"
 
-class UserRepositoryImpl(context: Context) : UserRepository {
 
-    private val sharedPreferences =
-        context.getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
+class UserRepositoryImpl(private val userStorage: UserStorage) : UserRepository {
 
-    @SuppressLint("CommitPrefEdits")
     override fun saveName(saveParam: SaveUserNameParam): Boolean {
 
-        sharedPreferences.edit().putString(KEY_FIRST_NAME, saveParam.name).apply()
-        return true
+        val user = User(firstName = saveParam.name, lastName = "")
+
+        val result = userStorage.save(user)
+        return result
     }
 
     override fun getName(): UserName {
+        val user = userStorage.get()
 
-        val firstName = sharedPreferences.getString(KEY_FIRST_NAME, "") ?: ""
-        val lastName = sharedPreferences.getString(KEY_LAST_NAME, DEFAULT_NAME) ?: DEFAULT_NAME
+        val userName = UserName(firstName = user.firstName, lastName = "")
 
-        return UserName(firstName = firstName, lastName = lastName)
+        return userName
+
     }
 }
