@@ -1,4 +1,4 @@
-package com.example.cleanarchitectureexample_54.data.storage
+package com.example.data.data.storage
 
 import android.content.Context
 import com.example.cleanarchitectureexample_54.domain.model.SaveUserNameParam
