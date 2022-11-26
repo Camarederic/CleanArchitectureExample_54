@@ -1,10 +1,11 @@
-package com.example.cleanarchitectureexample_54.domain.usecase
+package com.example.domain.domain.usecase
 
-import com.example.cleanarchitectureexample_54.domain.model.SaveUserNameParam
-import com.example.cleanarchitectureexample_54.domain.repository.UserRepository
+import com.example.domain.domain.model.SaveUserNameParam
+import com.example.domain.domain.repository.UserRepository
 
 class SaveUserNameUseCase(private val userRepository: UserRepository) {
 
+    @Suppress("SuspiciousIndentation")
     fun execute(nameParam: SaveUserNameParam): Boolean {
 
         val oldUserName = userRepository.getName()
